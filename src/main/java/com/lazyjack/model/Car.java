@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name="cars", schema = "car_fleet")
@@ -29,7 +27,7 @@ public class Car {
     private String carLicensePlate;
 
     @Basic
-    @Column(name = "car_brand")
+    @Column(name = "car_description")
     private String description;
 
     @Basic
@@ -56,7 +54,7 @@ public class Car {
     @JoinTable(
             name = "car_drivers",
             joinColumns = { @JoinColumn(name = "car_id") },
-            inverseJoinColumns = { @JoinColumn(name = "car_id") }
+            inverseJoinColumns = { @JoinColumn(name = "driver_id") }
     )
 
     private List<Driver> drivers = new ArrayList<>();
