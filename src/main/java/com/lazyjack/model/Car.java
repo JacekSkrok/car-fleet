@@ -50,7 +50,7 @@ public class Car {
         this.drivers = drivers;
     }
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "car_drivers",
             joinColumns = { @JoinColumn(name = "car_id") },
