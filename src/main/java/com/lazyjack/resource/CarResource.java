@@ -9,6 +9,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.util.List;
 import java.util.Optional;
 
 @Path("/")
@@ -27,14 +28,28 @@ public class CarResource {
     @GET
     @Path("/car/{carId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findCarById(short carId) {
+    public Response getCarById(short carId) {
         Optional<Car> car = carRepository.getCar(carId);
 
         if (car.isPresent()) {
             return Response.ok(car.get()).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity("Car not fount")
+                    .entity("Car not found")
+                    .build();
+        }
+    }
+
+    @GET
+    @Path("/cars")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllCars() {
+        List<Car> cars = carRepository.listAll();
+        if (!cars.isEmpty()) {
+            return Response.ok(cars).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Car not found")
                     .build();
         }
     }
