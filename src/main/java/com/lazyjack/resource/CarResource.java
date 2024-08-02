@@ -4,6 +4,7 @@ import com.lazyjack.model.Car;
 import com.lazyjack.repository.CarRepository;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
@@ -12,7 +13,7 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 import java.util.Optional;
 
-@Path("/")
+@Path("/cars")
 public class CarResource {
 
     @Inject
@@ -26,7 +27,7 @@ public class CarResource {
     }
 
     @GET
-    @Path("/car/{carId}")
+    @Path("/{carId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCarById(short carId) {
         Optional<Car> car = carRepository.getCar(carId);
@@ -40,8 +41,8 @@ public class CarResource {
         }
     }
 
+
     @GET
-    @Path("/cars")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllCars() {
         List<Car> cars = carRepository.listAll();
