@@ -50,7 +50,7 @@ public class CarResource {
             return Response.ok(cars).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity("Car not found")
+                    .entity("There are no cars")
                     .build();
         }
     }
