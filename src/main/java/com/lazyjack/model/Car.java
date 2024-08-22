@@ -123,5 +123,11 @@ public class Car {
         this.occupiedTo = occupiedTo;
     }
 
+    public Car() {}
 
+    public Car(short carId, String carBrand, String carModel) {
+        this.carId = carId;
+        this.carBrand = carBrand;
+        this.carModel = carModel;
+    }
 }
