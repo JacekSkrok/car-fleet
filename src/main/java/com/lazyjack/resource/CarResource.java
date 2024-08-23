@@ -3,10 +3,7 @@ package com.lazyjack.resource;
 import com.lazyjack.model.Car;
 import com.lazyjack.repository.CarRepository;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -29,7 +26,7 @@ public class CarResource {
     @GET
     @Path("/{carId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCarById(short carId) {
+    public Response getCarById(@PathParam("carId") short carId) {
         Optional<Car> car = carRepository.getCar(carId);
 
         if (car.isPresent()) {
