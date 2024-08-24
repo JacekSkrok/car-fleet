@@ -17,13 +17,6 @@ public class CarResource {
     CarRepository carRepository;
 
     @GET
-    @Path("/helloWorld")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String hello() {
-        return "Hello to Quarkus";
-    }
-
-    @GET
     @Path("/{carId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCarById(@PathParam("carId") short carId) {
