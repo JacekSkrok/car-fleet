@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 
 @QuarkusTest
@@ -20,8 +21,7 @@ public class DriverResourceTest {
 
 
     @Test
-    public void testGetDriverByIdFound()
-    {
+    public void testGetDriverByIdFound() {
         short driverId = 1;
 
         Driver driver = new Driver(driverId, "Jan", "Nowak");
@@ -35,6 +35,19 @@ public class DriverResourceTest {
                         .then()
                         .statusCode(200)
                         .body("driverId", equalTo(1));
+    }
+
+    @Test
+    public  void testGetDriverByIdNotFound() {
+        short driverId = 999;
+
+        given()
+                .pathParam("driverId", driverId)
+                .when()
+                .get("/drivers/{driverId}")
+                .then()
+                .statusCode(404)
+                .body(is("Driver not found"));
     }
 
 }
