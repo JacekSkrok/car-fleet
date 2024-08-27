@@ -30,6 +30,14 @@ public class Driver {
     @ManyToMany(mappedBy ="drivers")
     private Set<Car> cars = new HashSet<>();
 
+    public Driver() {}
+
+    public Driver(short driverId, String firstName, String lastName) {
+        this.driverId = driverId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public short getDriverId() {
         return driverId;
     }
