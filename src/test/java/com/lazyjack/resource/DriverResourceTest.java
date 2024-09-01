@@ -1,11 +1,15 @@
 package com.lazyjack.resource;
 
+import com.lazyjack.model.Car;
 import com.lazyjack.model.Driver;
 import com.lazyjack.repository.DriverRepository;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static io.restassured.RestAssured.given;
@@ -18,7 +22,6 @@ public class DriverResourceTest {
 
     @InjectMock
     DriverRepository driverRepository;
-
 
     @Test
     public void testGetDriverByIdFound() {
@@ -44,10 +47,37 @@ public class DriverResourceTest {
         given()
                 .pathParam("driverId", driverId)
                 .when()
-                .get("/drivers/{driverId}")
-                .then()
-                .statusCode(404)
-                .body(is("Driver not found"));
+                    .get("/drivers/{driverId}")
+                        .then()
+                        .statusCode(404)
+                        .body(is("Driver not found"));
     }
+
+    @Test
+    public void testGetAllCarsFound() {
+        List<Driver> drivers = Arrays.asList(new Driver((short) 1, "Jan", "Nowak"), new Driver((short) 2, "Adam", "Kowalski"));
+
+        when(driverRepository.listAll()).thenReturn(drivers);
+
+        given()
+                .when()
+                    .get("/drivers")
+                        .then()
+                        .statusCode(200)
+                        .body("$.size()", CoreMatchers.is(2));
+    }
+
+    @Test
+    public void testGetAllDriversNotFound() {
+
+        given()
+                .when()
+                    .get("/drivers")
+                        .then()
+                        .statusCode(404)
+                        .body(CoreMatchers.is("There are no drivers"));
+    }
+
+
 
 }
