@@ -30,7 +30,15 @@ public class CarResource {
                     .build();
         }
     }
-
+    @POST
+    @Path("/{carId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createCar(Car car) {
+        Car savedCar = carRepository.save(car);
+        return Response.status(Response.Status.CREATED)
+                .entity(savedCar)
+                .build();
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
