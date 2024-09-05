@@ -6,9 +6,10 @@ import com.speedment.jpastreamer.application.JPAStreamer;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @ApplicationScoped
 public class CarRepository implements PanacheRepository<Car> {
@@ -20,5 +21,11 @@ public class CarRepository implements PanacheRepository<Car> {
         return jpaStreamer.stream(Car.class)
                 .filter(Car$.carId.equal(carId))
                 .findFirst();
+    }
+
+    @Transactional
+    public Car save(Car car) {
+        getEntityManager().persist(car);
+        return car;
     }
 }
