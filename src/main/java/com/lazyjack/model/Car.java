@@ -9,7 +9,8 @@ import java.util.List;
 @Entity
 @Table(name="cars", schema = "car_fleet")
 public class Car {
-    @GeneratedValue
+
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "car_id")
     private short carId;
