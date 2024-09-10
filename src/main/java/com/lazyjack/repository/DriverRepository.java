@@ -6,6 +6,7 @@ import com.speedment.jpastreamer.application.JPAStreamer;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import java.util.Optional;
 
@@ -19,5 +20,11 @@ public class DriverRepository implements PanacheRepository<Driver> {
         return jpaStreamer.stream(Driver.class)
                 .filter(Driver$.driverId.equal(driverId))
                 .findFirst();
+    }
+
+    @Transactional
+    public Driver save(Driver driver) {
+        getEntityManager().persist(driver);
+        return driver;
     }
 }
