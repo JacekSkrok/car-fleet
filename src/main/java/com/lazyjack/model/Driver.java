@@ -10,7 +10,7 @@ import java.util.Set;
 @Table(name="drivers", schema = "car_fleet")
 public class Driver {
 
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "driver_id")
     private short driverId;
@@ -27,7 +27,7 @@ public class Driver {
     @Column(name = "driver_department")
     private String driverDepartment;
 
-    @ManyToMany(mappedBy ="drivers")
+    @ManyToMany(mappedBy ="drivers", fetch = FetchType.EAGER)
     private Set<Car> cars = new HashSet<>();
 
     public Driver() {}
