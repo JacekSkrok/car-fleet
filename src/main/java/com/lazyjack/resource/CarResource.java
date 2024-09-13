@@ -30,6 +30,7 @@ public class CarResource {
                     .build();
         }
     }
+
     @POST
     @Path("/{carId}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -38,6 +39,35 @@ public class CarResource {
         return Response.status(Response.Status.CREATED)
                 .entity(savedCar)
                 .build();
+    }
+
+    @PUT
+    @Path("/{carId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateCar(@PathParam("carId") short id, Car car) {
+
+        Optional<Car> existingCar = carRepository.getCar(id);
+
+        if( existingCar.isEmpty() ) {
+            Car savedCar = carRepository.save(car);
+            return Response.status(Response.Status.CREATED)
+                    .entity(savedCar)
+                    .build();
+        } else {
+
+            existingCar.get().setCarBrand(car.getCarBrand());
+            existingCar.get().setCarModel(car.getCarModel());
+            existingCar.get().setCarLicensePlate(car.getCarLicensePlate());
+            existingCar.get().setCarDescription(car.getCarDescription());
+            existingCar.get().setCarStatus(car.getCarStatus());
+            existingCar.get().setOccupiedFrom(car.getOccupiedFrom());
+            existingCar.get().setOccupiedTo(car.getOccupiedTo());
+
+            Car updatedCar = carRepository.save(existingCar.get());
+
+            return Response.ok(updatedCar).build();
+        }
     }
 
     @GET
