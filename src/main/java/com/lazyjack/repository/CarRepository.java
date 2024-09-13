@@ -9,7 +9,6 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @ApplicationScoped
 public class CarRepository implements PanacheRepository<Car> {
