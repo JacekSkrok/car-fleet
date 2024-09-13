@@ -29,7 +29,7 @@ public class Car {
 
     @Basic
     @Column(name = "car_description")
-    private String description;
+    private String carDescription;
 
     @Basic
     @Column(name = "car_status", columnDefinition = "enum('available','in_use', 'maintenance')")
@@ -92,12 +92,12 @@ public class Car {
         this.carLicensePlate = carLicensePlate;
     }
 
-    public String getDescription() {
-        return description;
+    public String getCarDescription() {
+        return carDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCarDescription(String carDescription) {
+        this.carDescription = carDescription;
     }
 
     public String getCarStatus() {
