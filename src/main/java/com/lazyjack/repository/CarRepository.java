@@ -16,7 +16,7 @@ public class CarRepository implements PanacheRepository<Car> {
     @Inject
     JPAStreamer jpaStreamer;
 
-    public Optional<Car> getCar(short carId) {
+    public Optional<Car> getCar(Long carId) {
         return jpaStreamer.stream(Car.class)
                 .filter(Car$.carId.equal(carId))
                 .findFirst();

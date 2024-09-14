@@ -19,7 +19,7 @@ public class CarResource {
     @GET
     @Path("/{carId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCarById(@PathParam("carId") short carId) {
+    public Response getCarById(@PathParam("carId") Long carId) {
         Optional<Car> car = carRepository.getCar(carId);
 
         if (car.isPresent()) {
@@ -45,7 +45,7 @@ public class CarResource {
     @Path("/{carId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateCar(@PathParam("carId") short id, Car car) {
+    public Response updateCar(@PathParam("carId") Long id, Car car) {
 
         Optional<Car> existingCar = carRepository.getCar(id);
 

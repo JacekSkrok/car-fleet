@@ -16,7 +16,7 @@ public class DriverRepository implements PanacheRepository<Driver> {
     @Inject
     JPAStreamer jpaStreamer;
 
-    public Optional<Driver> getDriver(short driverId) {
+    public Optional<Driver> getDriver(long driverId) {
         return jpaStreamer.stream(Driver.class)
                 .filter(Driver$.driverId.equal(driverId))
                 .findFirst();

@@ -24,7 +24,7 @@ public class CarResourceTest {
 
     @Test
     public void testGetCarByIdFound() {
-        short carId = 1;
+        long carId = 1;
 
         Car car = new Car(carId, "Toyota", "Corolla");
 
@@ -41,7 +41,7 @@ public class CarResourceTest {
 
     @Test
     public void testGetCarByIdNotFound() {
-        short carId = 999;
+        long carId = 999;
 
         given()
                 .pathParam("carId", carId)
@@ -55,7 +55,7 @@ public class CarResourceTest {
     @Test
     public void testGetAllCarsFound() {
 
-        List<Car> cars = Arrays.asList(new Car((short) 1,"BMW", "M6"), new Car((short) 2, "VW", "Tiguan"));
+        List<Car> cars = Arrays.asList(new Car(1L, "BMW", "M6"), new Car(2L, "VW", "Tiguan"));
 
         when(carRepository.listAll()).thenReturn(cars);
 
