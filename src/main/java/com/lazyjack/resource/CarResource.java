@@ -31,6 +31,19 @@ public class CarResource {
         }
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllCars() {
+        List<Car> cars = carRepository.listAll();
+        if (!cars.isEmpty()) {
+            return Response.ok(cars).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("There are no cars")
+                    .build();
+        }
+    }
+
     @POST
     @Path("/{carId}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -70,16 +83,23 @@ public class CarResource {
         }
     }
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllCars() {
-        List<Car> cars = carRepository.listAll();
-        if (!cars.isEmpty()) {
-            return Response.ok(cars).build();
+    @DELETE
+    @Path("/{carId}")
+    public Response deleteCar(@PathParam("carId") Long id) {
+        Optional<Car> toDeleteCar = carRepository.getCar(id);
+
+        if (toDeleteCar.isPresent()) {
+            carRepository.deleteById(toDeleteCar.get().getCarId());
+            return Response.noContent().build();
         } else {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity("There are no cars")
+                    .entity("Car not found")
                     .build();
         }
+
     }
+
+
+
+
 }
