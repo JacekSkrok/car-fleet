@@ -13,7 +13,7 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "car_id")
-    private long carId;
+    private Long carId;
 
     @Basic
     @Column(name = "car_brand")
@@ -60,11 +60,11 @@ public class Car {
 
     private List<Driver> drivers = new ArrayList<>();
 
-    public long getCarId() {
+    public Long getCarId() {
         return carId;
     }
 
-    public void setCarId(long carId) {
+    public void setCarId(Long carId) {
         this.carId = carId;
     }
 
