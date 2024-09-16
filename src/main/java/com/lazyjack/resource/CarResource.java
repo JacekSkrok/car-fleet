@@ -3,6 +3,7 @@ package com.lazyjack.resource;
 import com.lazyjack.model.Car;
 import com.lazyjack.repository.CarRepository;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -85,6 +86,7 @@ public class CarResource {
 
     @DELETE
     @Path("/{carId}")
+    @Transactional
     public Response deleteCar(@PathParam("carId") Long id) {
         Optional<Car> toDeleteCar = carRepository.getCar(id);
 
@@ -96,7 +98,6 @@ public class CarResource {
                     .entity("Car not found")
                     .build();
         }
-
     }
 
 
