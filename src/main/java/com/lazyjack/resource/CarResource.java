@@ -45,7 +45,7 @@ public class CarResource {
     }
 
     @POST
-    @Path("/{carId}")
+    @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createCar(Car car) {
         Car savedCar = carRepository.save(car);
