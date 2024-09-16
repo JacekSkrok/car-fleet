@@ -24,7 +24,12 @@ public class CarRepository implements PanacheRepository<Car> {
 
     @Transactional
     public Car save(Car car) {
-        getEntityManager().persist(car);
+
+        if (car.getCarId() == null) {
+            getEntityManager().persist(car);
+        } else {
+            car = getEntityManager().merge(car);
+        }
         return car;
     }
 }
