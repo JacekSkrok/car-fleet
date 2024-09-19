@@ -1,5 +1,6 @@
 package com.lazyjack.resource;
 
+import com.lazyjack.model.Car;
 import com.lazyjack.model.Driver;
 import com.lazyjack.model.Driver$;
 import com.lazyjack.repository.DriverRepository;
@@ -31,16 +32,6 @@ public class DriverResource {
         }
     }
 
-    @POST
-    @Path("/{driverId}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response createDriver(Driver driver) {
-        Driver savedDriver = driverRepository.save(driver);
-        return Response.status(Response.Status.CREATED)
-                .entity(savedDriver)
-                .build();
-    }
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllDrivers() {
@@ -53,4 +44,36 @@ public class DriverResource {
                     .build();
         }
     }
-}
+
+    @POST
+    @Path("/add")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createDriver(Driver driver) {
+        Driver savedDriver = driverRepository.save(driver);
+        return Response.status(Response.Status.CREATED)
+                .entity(savedDriver)
+                .build();
+    }
+
+    @PUT
+    @Path("/{driverId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateDriver(@PathParam("driverId") Long id, Driver driver) {
+        Optional<Driver> existingDriver = driverRepository.getDriver(id);
+
+        if( existingDriver.isEmpty() ) {
+            Driver savedDriver =  driverRepository.save(driver);
+            return Response.status(Response.Status.CREATED)
+                    .entity(savedDriver)
+                    .build();
+        } else {
+            existingDriver.get().setFirstName(driver.getFirstName());
+            existingDriver.get().setLastName(driver.getLastName());
+            existingDriver.get().setDriverDepartment(driver.getDriverDepartment());
+
+            Driver updatedDriver = driverRepository.save(existingDriver.get());
+
+            return Response.ok(updatedDriver).build();
+        }
+    }
+ }
