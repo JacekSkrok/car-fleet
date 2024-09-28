@@ -60,6 +60,21 @@ public class Car {
 
     private List<Driver> drivers = new ArrayList<>();
 
+    public Car() {}
+
+    public Car(Long carId, String carBrand, String carModel) {
+        this.carId = carId;
+        this.carBrand = carBrand;
+        this.carModel = carModel;
+    }
+
+    public Car(String carBrand, String carModel, String carLicensePlate, String carStatus) {
+        this.carBrand = carBrand;
+        this.carModel = carModel;
+        this.carLicensePlate = carLicensePlate;
+        this.carStatus = carStatus;
+    }
+
     public Long getCarId() {
         return carId;
     }
@@ -122,13 +137,5 @@ public class Car {
 
     public void setOccupiedTo(Timestamp occupiedTo) {
         this.occupiedTo = occupiedTo;
-    }
-
-    public Car() {}
-
-    public Car(Long carId, String carBrand, String carModel) {
-        this.carId = carId;
-        this.carBrand = carBrand;
-        this.carModel = carModel;
     }
 }
