@@ -1,0 +1,5 @@
+---
+app:
+  image: jack/car-fleet:1.0.0-SNAPSHOT
+  ports:
+    http: 8080
