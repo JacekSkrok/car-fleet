@@ -48,6 +48,7 @@ public class CarResource {
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response createCar(Car car) {
         Car savedCar = carRepository.save(car);
         return Response.status(Response.Status.CREATED)
@@ -69,7 +70,6 @@ public class CarResource {
                     .entity(savedCar)
                     .build();
         } else {
-
             existingCar.get().setCarBrand(car.getCarBrand());
             existingCar.get().setCarModel(car.getCarModel());
             existingCar.get().setCarLicensePlate(car.getCarLicensePlate());
@@ -99,8 +99,4 @@ public class CarResource {
                     .build();
         }
     }
-
-
-
-
 }
