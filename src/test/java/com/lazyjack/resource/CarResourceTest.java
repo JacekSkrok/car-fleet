@@ -4,8 +4,12 @@ import com.lazyjack.model.Car;
 import com.lazyjack.repository.CarRepository;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import jakarta.ws.rs.core.MediaType;
 import org.junit.jupiter.api.Test;
 
+import javax.print.attribute.standard.Media;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +17,9 @@ import java.util.Optional;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 
@@ -76,5 +83,23 @@ public class CarResourceTest {
                         .then()
                         .statusCode(404)
                         .body(is("There are no cars"));
+    }
+
+    @Test
+    public void testCreateCar() {
+        Car newCar = new Car("Honda", "Civic", "ABC127", "available");
+
+        when(carRepository.save(any(Car.class))).thenReturn(new Car(1L, "Honda", "Civic", "ABC127", "available"));
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(newCar)
+        .when()
+                .post("/cars/add")
+        .then()
+                .statusCode(201)
+                .body("carId", equalTo(1))
+                .body("carBrand", equalTo("Honda"))
+                .body("carModel", equalTo("Civic"));
     }
 }
