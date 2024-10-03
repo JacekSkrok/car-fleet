@@ -20,6 +20,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
@@ -92,7 +93,7 @@ public class CarResourceTest {
         when(carRepository.save(any(Car.class))).thenReturn(new Car(1L, "Honda", "Civic", "ABC127", "available"));
 
         given()
-                .contentType(ContentType.JSON)
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(newCar)
         .when()
                 .post("/cars/add")
@@ -101,5 +102,28 @@ public class CarResourceTest {
                 .body("carId", equalTo(1))
                 .body("carBrand", equalTo("Honda"))
                 .body("carModel", equalTo("Civic"));
+    }
+
+    @Test
+    public void updateCar() {
+        Car existingCar = new Car(1L, "Honda", "Civic", "XYZ789", "available");
+
+        Car updatedCar = new Car(1L, "Honda", "Civic", "XYZ789", "in_use");
+
+        when(carRepository.getCar(existingCar.getCarId())).thenReturn(Optional.of(existingCar));
+        when(carRepository.save(any(Car.class))).thenReturn(updatedCar);
+
+        given()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(updatedCar)
+        .when()
+                .put("/cars/1")
+        .then()
+                .statusCode(200)
+                .body("carId", equalTo(1))
+                .body("carBrand", equalTo("Honda"))
+                .body("carModel", equalTo("Civic"))
+                .body("carLicensePlate", equalTo("XYZ789"))
+                .body("carStatus", equalTo("in_use"));
     }
 }
