@@ -20,8 +20,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @QuarkusTest
@@ -126,4 +125,23 @@ public class CarResourceTest {
                 .body("carLicensePlate", equalTo("XYZ789"))
                 .body("carStatus", equalTo("in_use"));
     }
+
+    @Test
+    public void deleteCar() {
+        long carId = 1;
+        Car existingCar = new Car(carId, "Honda", "Civic", "XYZ789", "available");
+
+        when(carRepository.getCar(existingCar.getCarId())).thenReturn(Optional.of(existingCar));
+
+        Long id = 1L;
+        given()
+                .pathParam("carId", carId)
+        .when()
+                .delete("cars/{carId}")
+        .then()
+                .statusCode(204);
+
+        verify(carRepository, times(1)).deleteById(carId);
+    }
+
 }
